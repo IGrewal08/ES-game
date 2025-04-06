@@ -1,31 +1,28 @@
 const container = document.querySelector('#container');
 
 button.addEventListener("click", () => {
-
-    let input = prompt();
-    if (input >= 100 && input < 2) {
-        input = prompt();
-    }
     removeGrid();
-    buildGrid(input);
+    let userInput;
+    do {
+        userInput = prompt('Enter Grid-Size');
+    } while ((userInput < 2) || (userInput > 100))
+    buildGrid(userInput);
 });
 
-function buildGrid (input) {
 
-    for (let i = 1; i <= input; i++) {
-        const parent = document.createElement('div');
-        parent.classList.add('parent');
-    
-        for (let j = 1; j <= input; j++) {
-            const child = document.createElement('div');
-            child.classList.add('child');
-            parent.appendChild(child);
-        }
-        container.appendChild(parent);
+function buildGrid (userInput) {
+    const totalDiv = userInput * userInput;
+    const dimension = 640/userInput;
+
+    for (let i = 1; i <= totalDiv; i++) {
+        const child = document.createElement('div');
+        child.classList.add('child');
+        child.style.width = `${dimension}px`;
+        child.style.height = `${dimension}px`;
+        container.appendChild(child);
     }
 
     const allChild = document.querySelectorAll('.child');
-
     allChild.forEach((div) => {
         div.addEventListener("mouseover", (event) => {
             const results = getRGB();
@@ -35,9 +32,9 @@ function buildGrid (input) {
 }
 
 function removeGrid () {
-    const parentElement = document.getElementById('container');
-    while (parentElement.firstChild) {
-        parentElement.removeChild(parentElement.firstChild);
+    const childElement = document.getElementById('container');
+    while (childElement.firstChild) {
+        childElement.removeChild(childElement.firstChild);
     }
 }
 
@@ -47,6 +44,6 @@ function getRGB () {
         , Math.round((Math.random() * (255)))];
 }
 
-buildGrid(80);
+buildGrid(50);
 
 
